@@ -1,0 +1,58 @@
+name: "FTP Swift"
+description: "Securely uploads files and folders to an FTP server. Supports authentication, custom ports, and directory selection."
+branding:
+  icon: "upload-cloud"
+  color: "blue"
+author: "Soumyanjan Dey"
+
+inputs:
+  server:
+    description: "FTP server address"
+    required: true
+  username:
+    description: "FTP username"
+    required: true
+  password:
+    description: "FTP password"
+    required: true
+  port:
+    description: "FTP port"
+    required: false
+    default: "21"
+  local-dir:
+    description: "Local directory to upload"
+    required: false
+    default: "./"
+  remote-dir:
+    description: "Remote directory on FTP server"
+    required: false
+    default: "/"
+
+outputs:
+  status:
+    description: "Indicates whether the FTP upload was successful or failed."
+    value: "${{ steps.ftp-upload.outputs.status }}"
+  uploaded-files:
+    description: "Comma-separated list of files successfully uploaded to the FTP server."
+    value: "${{ steps.ftp-upload.outputs.uploaded-files }}"
+
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install dependencies
+      run: npm ci --prefix ${{ github.action_path }}
+      shell: bash
+
+    - name: Run FTP Upload
+      env:
+        FTP_SERVER: ${{ inputs.server }}
+        FTP_USERNAME: ${{ inputs.username }}
+        FTP_PASSWORD: ${{ inputs.password }}
+        FTP_PORT: ${{ inputs.port }}
+        LOCAL_DIR: ${{ inputs.local-dir }}
+        REMOTE_DIR: ${{ inputs.remote-dir }}
+      run: node ${{ github.action_path }}/index.js
+      shell: bash
+
+  

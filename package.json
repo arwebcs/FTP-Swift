@@ -1,0 +1,12 @@
+{
+  "name": "ftp-swift",
+  "version": "1.0.0",
+  "description": "FTP Swift is a fast and reliable solution for uploading and managing files and folders via FTP. It ensures seamless transfers with secure connections, making file management efficient and hassle-free.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "basic-ftp": "^5.0.4"
+  }
+}
